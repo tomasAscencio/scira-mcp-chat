@@ -1,5 +1,5 @@
 <a href="https://mcp.scira.ai">
-  <h1 align="center">Scira MCP Chat</h1>
+  <h1 align="center">Mifos Agentic Chat with MCP support</h1>
 </a>
 
 <p align="center">

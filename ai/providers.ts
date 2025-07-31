@@ -1,5 +1,6 @@
 import { createGroq } from "@ai-sdk/groq";
 import { createXai } from "@ai-sdk/xai";
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
 import {
   customProvider,
@@ -42,6 +43,12 @@ const xaiClient = createXai({
   apiKey: getApiKey('XAI_API_KEY'),
 });
 
+const ollamaClient = createOpenAICompatible({
+  name: 'Ollama',
+  apiKey: getApiKey('OLLAMA_API_KEY'),
+  baseURL: 'http://192.168.80.134:11434/v1',
+});
+
 const languageModels = {
   "qwen3-32b": wrapLanguageModel(
     {
@@ -51,7 +58,8 @@ const languageModels = {
   ),
   "grok-3-mini": xaiClient("grok-3-mini-latest"),
   "kimi-k2": groqClient('moonshotai/kimi-k2-instruct'),
-  "llama4": groqClient('meta-llama/llama-4-scout-17b-16e-instruct')
+  "llama4": groqClient('meta-llama/llama-4-scout-17b-16e-instruct'),
+  "qwen3": ollamaClient('qwen3:8b')
 };
 
 export const modelDetails: Record<keyof typeof languageModels, ModelInfo> = {
@@ -81,6 +89,13 @@ export const modelDetails: Record<keyof typeof languageModels, ModelInfo> = {
     name: "Llama 4",
     description: "Latest version of Meta's Llama 4 with good balance of capabilities.",
     apiVersion: "llama-4-scout-17b-16e-instruct",
+    capabilities: ["Balanced", "Efficient", "Agentic"]
+  },
+  "qwen3": {
+    provider: "Ollama",
+    name: "Qwen 3 8B",
+    description: "Latest version of Alibaba's Qwen 32B with strong reasoning and coding capabilities.",
+    apiVersion: "qwen3:8b",
     capabilities: ["Balanced", "Efficient", "Agentic"]
   }
 };
